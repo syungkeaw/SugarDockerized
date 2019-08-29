@@ -2,12 +2,12 @@ version: '3'
 
 services:
     web1:
-        container_name: "vmsugarcrm"
+        container_name: "sugar-web"
         image: esimonetti/sugardockerized:php7.3-apache-1.16
         ports:
             - "80:80"
         extra_hosts:
-            - "sugar.dev:127.0.0.1"
+            - "sugar.test:127.0.0.1"
         environment:
             - "APACHE_RUN_USER=sugar"
             - "APACHE_RUN_GROUP=sugar"
@@ -23,7 +23,7 @@ services:
             - elasticsearch
             - redis
     cron:
-        container_name: "vmsugarcron"
+        container_name: "sugar-cron"
         image: esimonetti/sugardockerized:php7.3-cron-1.16
         volumes:
             - ./sugarwebcore/htdocs:/var/www/html
@@ -37,7 +37,7 @@ services:
             - elasticsearch
             - redis
     mysql:
-        container_name: "vmsugardb"
+        container_name: "sugar-mysql"
         image: esimonetti/sugardockerized:mysql5.7-1.06
         ports:
             - "3306:3306"
@@ -48,7 +48,7 @@ services:
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
-        container_name: "vmsugarelasticsearch"
+        container_name: "sugar-elasticsearch"
         image: esimonetti/sugardockerized:elasticsearch6.2-1.07
         volumes:
             - ./data/elasticsearch/62:/usr/share/elasticsearch/data
@@ -62,12 +62,12 @@ services:
                 soft: 65536
                 hard: 65536
     redis:
-        container_name: "vmsugarredis"
+        container_name: "sugar-redis"
         image: redis:latest
         volumes:
             - ./data/redis:/data
     permissions:
-        container_name: "vmsugarpermissions"
+        container_name: "sugar-permissions"
         image: esimonetti/sugardockerized:permissions-1.17
         volumes:
             - ./sugarwebcore/htdocs:/var/www/html
